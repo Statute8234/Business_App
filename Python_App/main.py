@@ -1,13 +1,14 @@
-from humanfriendly.terminal import message
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.core.window import Window
 from kivymd.app import MDApp
 from kivymd.toast import toast
-# ----- hand made
-import python_database
-#python_database.clear_table()
-#python_database.add_user("RedInfinity_Pro", "username", "email",python_database.hash_password("password"))
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.list import OneLineIconListItem, IconLeftWidget
+from kivymd.uix.textfield import MDTextField
+from kivy.properties import StringProperty
+from kivy.clock import Clock
+import pythonDatabase
 # show notification
 def show_notification(check):
     if check:
@@ -18,20 +19,24 @@ def show_notification(check):
 class WindowManager(ScreenManager):
     pass
 
+class Home_Screen(Screen):
+    def __init__(self, **kwargs):
+        super(Home_Screen, self).__init__(**kwargs)
+        Builder.load_file('home_screen.kv')
+
 class Login_Screen(Screen):
     def __init__(self, **kwargs):
         super(Login_Screen, self).__init__(**kwargs)
         Builder.load_file('login_screen.kv')
 
     def check_input(self):
-        self.LoginUsername_input = self.ids.username_input
+        self.LoginBusinessName_input = self.ids.businessName_input
+        self.LoginSymbolEmblem_input = self.ids.symbolEmblem_input
         self.LoginPassword_input = self.ids.text_field
-        self.LoginUsername = self.LoginUsername_input.text
+        # ----
+        self.LoginBusinessName = self.LoginBusinessName_input.text
+        self.LoginSymbolEmblem = self.LoginSymbolEmblem_input.text
         self.LoginPassword = self.LoginPassword_input.text
-
-        user_exists, message = python_database.check_user_data('login', username=self.LoginUsername, password=self.LoginPassword)
-        if not (len(self.LoginUsername) >= self.LoginUsername_input.max_text_length) or (len(self.LoginPassword) >= self.LoginPassword_input.max_text_length):
-            show_notification(user_exists)
 
 class Forgotpassword_Screen(Screen):
     def __init__(self, **kwargs):
@@ -39,14 +44,13 @@ class Forgotpassword_Screen(Screen):
         Builder.load_file('forgotpassword_screen.kv')
 
     def check_input(self):
-        self.ForgotUsername_input = self.ids.username_input
+        self.ForgotBusinessName_input = self.ids.businessName_input
+        self.ForgotSymbolEmblem_input = self.ids.symbolEmblem_input
         self.ForgotEmail_input = self.ids.email_input
-        self.ForgotUsername = self.ForgotUsername_input.text
+        # ----
+        self.ForgotBusinessName = self.LoginBusinessName_input.text
+        self.ForgotSymbolEmblem = self.LoginSymbolEmblem_input.text
         self.ForgotEmail = self.ForgotEmail_input.text
-
-        user_exists, message = python_database.check_user_data('forgot_password', username=self.ForgotUsername, email=self.ForgotEmail)
-        if not (len(self.ForgotUsername) >= self.ForgotUsername_input.max_text_length) or (len(self.ForgotEmail) >= self.ForgotEmail_input.max_text_length):
-            show_notification(user_exists)
 
 class Signup_Screen(Screen):
     def __init__(self, **kwargs):
@@ -54,21 +58,16 @@ class Signup_Screen(Screen):
         Builder.load_file('signup_screen.kv')
 
     def check_input(self):
-        self.SignupBusiness_input = self.ids.business_input
-        self.SignupUsername_input = self.ids.username_input
+        self.SignupBusinessName_input = self.ids.businessName_input
+        self.SignupSymbolEmblem_input = self.ids.symbolEmblem_input
         self.SignupEmail_input = self.ids.email_input
         self.SignupPassword_input = self.ids.text_field
-        self.SignupBusiness = self.SignupBusiness_input.text
-        self.SignupUsername = self.SignupUsername_input.text
+        # ----
+        self.SignupBusinessName = self.SignupBusinessName_input.text
+        self.SignupSymbolEmblem = self.SignupSymbolEmblem_input.text
         self.SignupEmail = self.SignupEmail_input.text
         self.SignupPassword = self.SignupPassword_input.text
-
-        user_exists, message = python_database.check_user_data('sign_up', business_name=self.SignupBusiness, username=self.SignupUsername, email=self.SignupEmail, password=self.SignupPassword)
-        if (not (len(self.SignupBusiness) >= self.SignupBusiness_input.max_text_length)
-                or (len(self.SignupUsername) >= self.SignupUsername_input.max_text_length)
-                or (len(self.SignupEmail) >= self.SignupEmail_input.max_text_length)
-                or (len(self.SignupPassword) >= self.SignupPassword_input.max_text_length) ):
-            show_notification(not(user_exists))
+        #show_notification(pythonDatabase.check_sign_up(self.SignupEmail))
 
 class MainApp(MDApp):
     def build(self):
