@@ -1,0 +1,5 @@
+[![Static Badge](https://img.shields.io/badge/kivy-red)](https://pypi.org/project/kivy/)
+[![Static Badge](https://img.shields.io/badge/kivymd-yellow)](https://pypi.org/project/kivymd/)
+[![Static Badge](https://img.shields.io/badge/kivy-orange)](https://pypi.org/project/kivy/)
+[![Static Badge](https://img.shields.io/badge/pythonDatabase-blue)](https://pypi.org/project/pythonDatabase/)
+[![Static Badge](https://img.shields.io/badge/pysqlitecipher-pink)](https://pypi.org/project/pysqlitecipher/)
